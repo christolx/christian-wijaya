@@ -28,6 +28,7 @@
 
 .footer__brand-logo {
     height: 40px;
+    width: auto;
     margin-right: 1rem;
 }
 

@@ -1,0 +1,173 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import craftsman from '../assets/craftsman.png';
+import { products, formatPrice } from '../data/products';
+import '../styles/pages/home.css';
+
+const featured = products.slice(0, 3);
+const featuredAlt = ['Luxury Watch', 'Designer Cufflinks', 'Leather Wallet'];
+---
+
+<BaseLayout
+  title="Christian Wijaya | Luxury Fashion"
+  description="Christian Wijaya creates timeless luxury fashion with exceptional craftsmanship."
+>
+  <section class="hero">
+    <div class="hero__container">
+      <div class="hero__content">
+        <h1 class="hero__title">Timeless Elegance</h1>
+        <p class="hero__subtitle">Redefining luxury with craftsmanship that transcends generations</p>
+        <a href="/products" class="hero__cta">Explore Collection</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured">
+    <div class="featured__container">
+      <h2 class="section-title">Latest Collection</h2>
+      <p class="section-subtitle">Discover our most coveted pieces</p>
+      <div class="featured__grid">
+        {featured.map((product, index) => (
+          <article class="featured__item">
+            <div class="featured__image-container">
+              <Image src={product.image} alt={featuredAlt[index]} class="featured__image" widths={[420, 720]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" />
+              <div class="featured__overlay">
+                <a href={`/products/${product.slug}`} class="featured__view">View Details</a>
+              </div>
+            </div>
+            <h3 class="featured__name">{product.name}</h3>
+            <p class="featured__price">{formatPrice(product.price)}</p>
+          </article>
+        ))}
+      </div>
+      <div class="featured__action">
+        <a href="/products" class="featured__all">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="story__container">
+      <div class="story__content">
+        <h2 class="section-title">Our Heritage</h2>
+        <p class="story__text">
+          Founded in 1992, Christian Wijaya has established itself as a premier luxury brand,
+          synonymous with exceptional craftsmanship and timeless design. Each piece is meticulously
+          crafted by our master artisans using only the finest materials sourced from around the world.
+        </p>
+        <p class="story__text">
+          Our commitment to excellence extends beyond our products to the personalized service we
+          provide to our discerning clientele. We invite you to experience the world of Christian Wijaya.
+        </p>
+        <a href="/about" class="story__link">Discover Our Story</a>
+      </div>
+      <div class="story__image-container">
+        <Image src={craftsman} alt="Master Craftsman at Work" class="story__image" widths={[600, 900]} sizes="(max-width: 768px) 100vw, 50vw" loading="eager" decoding="auto" />
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="testimonials__container">
+      <h2 class="section-title">Client Testimonials</h2>
+      <div class="testimonials__slider" id="testimonials-slider">
+        <div class="testimonials__slide">
+          <blockquote class="testimonials__quote">
+            "The attention to detail and quality of craftsmanship in every Christian Wijaya piece is unmatched.
+            My collection has become a treasured family heirloom."
+            <footer class="testimonials__author">— Jonathan Pierce, CEO</footer>
+          </blockquote>
+        </div>
+        <div class="testimonials__slide">
+          <blockquote class="testimonials__quote">
+            "The personalized service and exclusive designs keep me coming back. Christian Wijaya understands luxury."
+            <footer class="testimonials__author">— Elizabeth Chen, Art Collector</footer>
+          </blockquote>
+        </div>
+        <div class="testimonials__slide">
+          <blockquote class="testimonials__quote">
+            "From the moment I entered the boutique, I knew I was experiencing something extraordinary.
+            The timepiece I purchased continues to garner compliments years later."
+            <footer class="testimonials__author">— Michael Rothstein, Entrepreneur</footer>
+          </blockquote>
+        </div>
+      </div>
+      <div class="testimonials__controls">
+        <button class="testimonials__control" id="prev-testimonial" type="button" aria-label="Previous testimonial">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="testimonials__control" id="next-testimonial" type="button" aria-label="Next testimonial">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <div class="newsletter__container">
+      <h2 class="newsletter__title">Join Our Exclusive Circle</h2>
+      <p class="newsletter__text">Subscribe to receive updates on new collections, private events, and special offers.</p>
+      <form class="newsletter__form" id="newsletter-form" novalidate>
+        <div class="newsletter__input-group">
+          <input type="email" id="newsletter-email" class="newsletter__input" placeholder="Your Email Address" aria-label="Your Email Address" required />
+          <button type="submit" class="newsletter__submit">Subscribe</button>
+        </div>
+        <p class="newsletter__message" id="newsletter-message" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    const slides = document.querySelectorAll<HTMLElement>('.testimonials__slide');
+    const prevBtn = document.getElementById('prev-testimonial');
+    const nextBtn = document.getElementById('next-testimonial');
+    if (slides.length && prevBtn && nextBtn) {
+      let currentSlide = 0;
+      slides[currentSlide].classList.add('active');
+      const nextSlide = () => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      };
+      const prevSlide = () => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+      };
+      let slideInterval = window.setInterval(nextSlide, 5000);
+      const restart = () => {
+        window.clearInterval(slideInterval);
+        slideInterval = window.setInterval(nextSlide, 5000);
+      };
+      nextBtn.addEventListener('click', () => { nextSlide(); restart(); });
+      prevBtn.addEventListener('click', () => { prevSlide(); restart(); });
+      document.getElementById('testimonials-slider')?.addEventListener('mouseenter', () => window.clearInterval(slideInterval));
+      document.getElementById('testimonials-slider')?.addEventListener('mouseleave', restart);
+    }
+
+    const newsletterForm = document.querySelector<HTMLFormElement>('#newsletter-form');
+    const newsletterMessage = document.getElementById('newsletter-message');
+    const emailInput = document.querySelector<HTMLInputElement>('#newsletter-email');
+    if (newsletterForm && newsletterMessage && emailInput) {
+      newsletterForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const email = emailInput.value.trim();
+        newsletterMessage.className = 'newsletter__message';
+        if (!email.includes('@') || !email.includes('.')) {
+          newsletterMessage.textContent = 'Please enter a valid email address.';
+          newsletterMessage.classList.add('error');
+          return;
+        }
+        newsletterMessage.textContent = 'Subscribing...';
+        window.setTimeout(() => {
+          newsletterMessage.textContent = 'Thank you for subscribing to our newsletter!';
+          newsletterMessage.classList.add('success');
+          newsletterForm.reset();
+        }, 1500);
+      });
+    }
+
+    window.setTimeout(() => document.querySelector('.hero')?.classList.add('loaded'), 100);
+  </script>
+</BaseLayout>

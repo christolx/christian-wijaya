@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { products } from '../../data/products';
+import '../../styles/pages/product.css';
+---
+
+<BaseLayout
+  title="Our Collection | Christian Wijaya"
+  description="Discover Christian Wijaya watches, accessories, leather goods, and jewelry."
+>
+  <section class="collection-banner">
+    <div class="collection-banner__container">
+      <h1 class="collection-banner__title">Our Collection</h1>
+      <p class="collection-banner__subtitle">Discover the epitome of luxury and craftsmanship</p>
+    </div>
+  </section>
+
+  <section class="filters">
+    <div class="filters__container">
+      <div class="filters__categories">
+        <button class="filters__category active" type="button" data-category="all">All Products</button>
+        <button class="filters__category" type="button" data-category="watches">Watches</button>
+        <button class="filters__category" type="button" data-category="accessories">Accessories</button>
+        <button class="filters__category" type="button" data-category="leather">Leather Goods</button>
+        <button class="filters__category" type="button" data-category="jewelry">Jewelry</button>
+      </div>
+      <div class="filters__sort">
+        <label for="sort-select" class="filters__sort-label">Sort by:</label>
+        <select id="sort-select" class="filters__sort-select">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A to Z</option>
+          <option value="name-desc">Name: Z to A</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="products">
+    <div class="products__container">
+      <div class="products__grid" id="products-grid">
+        {products.map((product) => <ProductCard product={product} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="brand-video">
+    <div class="brand-video__container">
+      <h2 class="brand-video__title">The Art of Craftsmanship</h2>
+      <p class="brand-video__description">Witness the meticulous elegance of Christian Wijaya</p>
+      <div class="brand-video__wrapper">
+        <video id="brand-trailer" class="brand-video__player" controls>
+          <source src="/assets/trailer.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <button class="brand-video__play-btn" id="video-play-btn" type="button" aria-label="Play video">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="consultation">
+    <div class="consultation__container">
+      <div class="consultation__content">
+        <h2 class="consultation__title">Personal Shopping Experience</h2>
+        <p class="consultation__text">
+          Our luxury consultants are available to provide personalized guidance and recommendations
+          tailored to your preferences. Schedule a private consultation at our boutique or online.
+        </p>
+        <a href="#" class="consultation__cta">Book a Consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const categoryButtons = [...document.querySelectorAll<HTMLButtonElement>('.filters__category')];
+    const productItems = [...document.querySelectorAll<HTMLElement>('.products__item')];
+    const sortSelect = document.querySelector<HTMLSelectElement>('#sort-select');
+    const productsGrid = document.getElementById('products-grid');
+
+    categoryButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        categoryButtons.forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        const category = button.dataset.category;
+        productItems.forEach((item) => {
+          item.style.display = category === 'all' || item.dataset.category === category ? 'block' : 'none';
+        });
+      });
+    });
+
+    sortSelect?.addEventListener('change', () => {
+      if (!productsGrid) return;
+      const sorted = [...productItems];
+      if (sortSelect.value === 'price-asc') sorted.sort((a, b) => Number(a.dataset.price) - Number(b.dataset.price));
+      if (sortSelect.value === 'price-desc') sorted.sort((a, b) => Number(b.dataset.price) - Number(a.dataset.price));
+      if (sortSelect.value === 'name-asc') sorted.sort((a, b) => (a.dataset.name ?? '').localeCompare(b.dataset.name ?? ''));
+      if (sortSelect.value === 'name-desc') sorted.sort((a, b) => (b.dataset.name ?? '').localeCompare(a.dataset.name ?? ''));
+      if (sortSelect.value === 'featured') sorted.sort((a, b) => productItems.indexOf(a) - productItems.indexOf(b));
+      sorted.forEach((product) => productsGrid.appendChild(product));
+    });
+
+    const videoPlayer = document.querySelector<HTMLVideoElement>('#brand-trailer');
+    const playButton = document.querySelector<HTMLButtonElement>('#video-play-btn');
+    if (playButton && videoPlayer) {
+      playButton.addEventListener('click', () => void videoPlayer.play());
+      videoPlayer.addEventListener('pause', () => playButton.classList.remove('hidden'));
+      videoPlayer.addEventListener('play', () => playButton.classList.add('hidden'));
+      videoPlayer.addEventListener('ended', () => playButton.classList.remove('hidden'));
+    }
+
+    const animateOnScroll = () => {
+      productItems.forEach((item) => {
+        if (item.getBoundingClientRect().top < window.innerHeight / 1.2) {
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }
+      });
+    };
+    productItems.forEach((item) => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(20px)';
+      item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    });
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll, { passive: true });
+    animateOnScroll();
+
+    document.querySelector('.consultation__cta')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      window.alert('Successfully booked a consultation.');
+    });
+  </script>
+</BaseLayout>

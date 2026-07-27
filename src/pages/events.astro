@@ -1,0 +1,256 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import runway from '../assets/runway.jpg';
+import workshop from '../assets/workshop.jpg';
+import gala from '../assets/gala.jpg';
+import '../styles/pages/event.css';
+
+const events = [
+  {
+    image: runway,
+    alt: 'Runway Show',
+    day: '15',
+    month: 'JUN',
+    name: 'Summer Collection Runway Show',
+    location: 'Plaza Indonesia, Jakarta',
+    time: '7:00 PM - 10:00 PM',
+    description: 'Be among the first to witness our latest summer collection as it debuts on the runway. The evening will include a champagne reception and exclusive after-party.',
+    action: 'Request Invitation'
+  },
+  {
+    image: workshop,
+    alt: 'Craftsmanship Workshop',
+    day: '22',
+    month: 'JUL',
+    name: 'Craftsmanship Workshop',
+    location: 'Christian Wijaya Atelier, Jakarta',
+    time: '2:00 PM - 5:00 PM',
+    description: 'Experience the artistry behind our creations with a hands-on workshop led by our master craftsmen. Learn about the techniques and materials that make our pieces exceptional.',
+    action: 'Register Now'
+  },
+  {
+    image: gala,
+    alt: 'Charity Gala',
+    day: '10',
+    month: 'AUG',
+    name: 'Annual Charity Gala',
+    location: 'The Ritz-Carlton, Jakarta',
+    time: '6:30 PM - 11:30 PM',
+    description: 'Join us for an elegant evening in support of artisan education. The gala features a silent auction of exclusive Christian Wijaya pieces, fine dining, and live entertainment.',
+    action: 'Purchase Tickets'
+  }
+];
+---
+
+<BaseLayout
+  title="Events | Christian Wijaya"
+  description="Join Christian Wijaya exclusive events and apply to become a brand model."
+>
+  <section class="event-hero">
+    <div class="event-hero__container">
+      <h1 class="event-hero__title">Exclusive Events</h1>
+      <p class="event-hero__subtitle">Join us for unforgettable experiences in the world of luxury</p>
+    </div>
+  </section>
+
+  <section class="events">
+    <div class="events__container">
+      <h2 class="section-title">Upcoming Events</h2>
+      <p class="section-subtitle">Immerse yourself in the world of Christian Wijaya</p>
+      <div class="events__grid">
+        {events.map((item) => (
+          <article class="events__item">
+            <div class="events__image-container">
+              <Image src={item.image} alt={item.alt} class="events__image" widths={[460, 720]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" />
+              <div class="events__date"><span class="events__day">{item.day}</span><span class="events__month">{item.month}</span></div>
+            </div>
+            <div class="events__content">
+              <h3 class="events__name">{item.name}</h3>
+              <p class="events__location">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                {item.location}
+              </p>
+              <p class="events__time">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                {item.time}
+              </p>
+              <p class="events__description">{item.description}</p>
+              <a href="#" class="events__button">{item.action}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="model-registration">
+    <div class="model-registration__container">
+      <h2 class="section-title">Become a Christian Wijaya Model</h2>
+      <p class="section-subtitle">Join our exclusive roster of brand ambassadors</p>
+      <div class="model-registration__content">
+        <div class="model-registration__info">
+          <p class="model-registration__text">We are constantly seeking new faces to represent the elegance and sophistication of the Christian Wijaya brand. If you embody our aesthetic and values, we invite you to apply to become part of our modeling family.</p>
+          <p class="model-registration__text">Selected applicants will be invited to a casting call at our headquarters in Jakarta and may have the opportunity to participate in our upcoming campaigns, runway shows, and exclusive events.</p>
+          <div class="model-registration__requirements">
+            <h3 class="model-registration__requirements-title">Requirements</h3>
+            <ul class="model-registration__requirements-list">
+              <li>Age: At least 18 years old.</li>
+              <li>Minimum height: 175cm (women), 185cm (men)</li>
+              <li>Professional demeanor and excellent communication skills</li>
+              <li>Availability for castings, fittings, and events in Jakarta</li>
+              <li>Previous modeling experience preferred but not required</li>
+            </ul>
+          </div>
+        </div>
+
+        <form class="model-registration__form" id="model-form" novalidate>
+          <div class="model-registration__form-group">
+            <label for="fullName" class="model-registration__label">Full Name *</label>
+            <input type="text" id="fullName" class="model-registration__input" required />
+            <span class="model-registration__error" id="fullName-error"></span>
+          </div>
+          <div class="model-registration__form-group">
+            <label for="email" class="model-registration__label">Email Address *</label>
+            <input type="email" id="email" class="model-registration__input" required />
+            <span class="model-registration__error" id="email-error"></span>
+          </div>
+          <div class="model-registration__form-group">
+            <label for="birthDate" class="model-registration__label">Date of Birth *</label>
+            <input type="date" id="birthDate" class="model-registration__input" required />
+            <span class="model-registration__error" id="birthDate-error"></span>
+          </div>
+          <div class="model-registration__form-group">
+            <label class="model-registration__label">Gender *</label>
+            <div class="model-registration__radio-group">
+              <div class="model-registration__radio"><input type="radio" id="genderMale" name="gender" value="male" class="model-registration__radio-input" required /><label for="genderMale" class="model-registration__radio-label">Male</label></div>
+              <div class="model-registration__radio"><input type="radio" id="genderFemale" name="gender" value="female" class="model-registration__radio-input" /><label for="genderFemale" class="model-registration__radio-label">Female</label></div>
+              <div class="model-registration__radio"><input type="radio" id="genderOther" name="gender" value="other" class="model-registration__radio-input" /><label for="genderOther" class="model-registration__radio-label">Other</label></div>
+            </div>
+            <span class="model-registration__error" id="gender-error"></span>
+          </div>
+          <div class="model-registration__form-group">
+            <label for="height" class="model-registration__label">Height (cm) *</label>
+            <input type="number" id="height" class="model-registration__input" min="150" max="220" required />
+            <span class="model-registration__error" id="height-error"></span>
+          </div>
+          <div class="model-registration__form-group">
+            <label for="experience" class="model-registration__label">Modeling Experience</label>
+            <select id="experience" class="model-registration__select">
+              <option value="">Please select</option>
+              <option value="none">No experience</option>
+              <option value="beginner">Beginner (0-1 years)</option>
+              <option value="intermediate">Intermediate (1-3 years)</option>
+              <option value="advanced">Advanced (3+ years)</option>
+              <option value="professional">Professional</option>
+            </select>
+          </div>
+          <div class="model-registration__form-group">
+            <label for="message" class="model-registration__label">Why do you want to represent Christian Wijaya?</label>
+            <textarea id="message" class="model-registration__textarea" rows="4"></textarea>
+          </div>
+          <div class="model-registration__form-group">
+            <div class="model-registration__checkbox">
+              <input type="checkbox" id="terms" class="model-registration__checkbox-input" required />
+              <label for="terms" class="model-registration__checkbox-label">I agree to the <a href="#" class="model-registration__link">terms and conditions</a> and consent to the processing of my personal data *</label>
+            </div>
+            <span class="model-registration__error" id="terms-error"></span>
+          </div>
+          <div class="model-registration__form-actions"><button type="submit" class="model-registration__submit">Submit Application</button></div>
+          <div class="model-registration__form-message" id="form-message" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const form = document.querySelector<HTMLFormElement>('#model-form');
+    const input = (id: string) => document.querySelector<HTMLInputElement>(`#${id}`);
+    const error = (id: string) => document.getElementById(`${id}-error`);
+    const formMessage = document.getElementById('form-message');
+    const genderInputs = [...document.querySelectorAll<HTMLInputElement>('input[name="gender"]')];
+
+    const selectedGender = () => genderInputs.find((item) => item.checked);
+    const validName = () => (input('fullName')?.value.trim().length ?? 0) >= 3;
+    const validEmail = () => {
+      const value = input('email')?.value.trim() ?? '';
+      return value.includes('@') && value.includes('.') && value.length > 5;
+    };
+    const validBirthDate = () => {
+      const value = input('birthDate')?.value;
+      if (!value) return false;
+      const today = new Date();
+      const birth = new Date(value);
+      let age = today.getFullYear() - birth.getFullYear();
+      if (today.getMonth() < birth.getMonth() || (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())) age -= 1;
+      return age >= 18;
+    };
+    const minHeight = () => selectedGender()?.value === 'male' ? 185 : selectedGender()?.value === 'female' ? 175 : 150;
+    const validHeight = () => {
+      const value = Number.parseFloat(input('height')?.value ?? '');
+      return Boolean(selectedGender()) && Number.isFinite(value) && value >= minHeight() && value <= 220;
+    };
+    const heightMessage = () => {
+      if (!selectedGender()) return 'Please select your gender first';
+      if (selectedGender()?.value === 'male') return 'Male models must be at least 185cm tall';
+      if (selectedGender()?.value === 'female') return 'Female models must be at least 175cm tall';
+      return 'Non-Binary models must be at least 150cm tall';
+    };
+    const clearErrors = () => ['fullName', 'email', 'birthDate', 'gender', 'height', 'terms'].forEach((id) => {
+      const target = error(id);
+      if (target) target.textContent = '';
+    });
+
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      clearErrors();
+      if (formMessage) {
+        formMessage.textContent = '';
+        formMessage.className = 'model-registration__form-message';
+      }
+      let valid = true;
+      if (!validName()) { if (error('fullName')) error('fullName')!.textContent = 'Please enter your full name (minimum 3 characters)'; valid = false; }
+      if (!validEmail()) { if (error('email')) error('email')!.textContent = 'Please enter a valid email address'; valid = false; }
+      if (!validBirthDate()) { if (error('birthDate')) error('birthDate')!.textContent = 'You must be at least 18 years old'; valid = false; }
+      if (!selectedGender()) { if (error('gender')) error('gender')!.textContent = 'Please select your gender'; valid = false; }
+      if (!validHeight()) { if (error('height')) error('height')!.textContent = heightMessage(); valid = false; }
+      if (!input('terms')?.checked) { if (error('terms')) error('terms')!.textContent = 'You must agree to the terms and conditions'; valid = false; }
+
+      if (formMessage) {
+        formMessage.textContent = valid ? 'Thank you for your application! We will contact you soon.' : 'Please correct the errors in the form.';
+        formMessage.className = `model-registration__form-message ${valid ? 'success' : 'error'}`;
+      }
+      if (valid) {
+        window.setTimeout(() => {
+          form.reset();
+          if (formMessage) {
+            formMessage.textContent = '';
+            formMessage.className = 'model-registration__form-message';
+          }
+        }, 5000);
+      } else {
+        document.querySelector('.model-registration__error:not(:empty)')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+
+    input('fullName')?.addEventListener('blur', () => {
+      if (error('fullName')) error('fullName')!.textContent = !validName() && Boolean(input('fullName')?.value.trim()) ? 'Please enter your full name (minimum 3 characters)' : '';
+    });
+    input('email')?.addEventListener('blur', () => {
+      if (error('email')) error('email')!.textContent = !validEmail() && Boolean(input('email')?.value.trim()) ? 'Please enter a valid email address' : '';
+    });
+    input('birthDate')?.addEventListener('change', () => {
+      if (error('birthDate')) error('birthDate')!.textContent = !validBirthDate() && Boolean(input('birthDate')?.value) ? 'You must be at least 18 years old' : '';
+    });
+    input('height')?.addEventListener('blur', () => {
+      if (error('height')) error('height')!.textContent = Boolean(input('height')?.value) && !validHeight() ? heightMessage() : '';
+    });
+    input('terms')?.addEventListener('change', () => {
+      if (input('terms')?.checked && error('terms')) error('terms')!.textContent = '';
+    });
+    genderInputs.forEach((item) => item.addEventListener('change', () => {
+      if (error('gender')) error('gender')!.textContent = '';
+      if (input('height')?.value && error('height')) error('height')!.textContent = validHeight() ? '' : heightMessage();
+    }));
+  </script>
+</BaseLayout>

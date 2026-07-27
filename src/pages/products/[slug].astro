@@ -1,0 +1,186 @@
+---
+import { Image } from 'astro:assets';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { formatPrice, productById, products, type Product } from '../../data/products';
+import '../../styles/pages/product-detail.css';
+
+export const getStaticPaths = (() =>
+  products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product }
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const relatedProducts = product.relatedIds
+  .map((id) => productById.get(id))
+  .filter((item): item is Product => Boolean(item));
+---
+
+<BaseLayout
+  title={`${product.name} | Christian Wijaya Luxury Fashion`}
+  description={product.description.slice(0, 160)}
+>
+  <div class="breadcrumb">
+    <div class="breadcrumb__container">
+      <a href="/" class="breadcrumb__link">Home</a>
+      <span class="breadcrumb__separator">/</span>
+      <a href="/products" class="breadcrumb__link">Collection</a>
+      <span class="breadcrumb__separator">/</span>
+      <span class="breadcrumb__current">{product.name}</span>
+    </div>
+  </div>
+
+  <section class="product-detail" data-product-detail data-product-name={product.name}>
+    <div class="product-detail__container">
+      <div class="product-detail__gallery">
+        <div class="product-detail__main-image">
+          <Image src={product.image} alt={product.name} class="product-detail__image" widths={[600, 900, 1200]} sizes="(max-width: 992px) 100vw, 50vw" loading="eager" decoding="auto" />
+        </div>
+      </div>
+      <div class="product-detail__info">
+        <div class="product-detail__header">
+          <h1 class="product-detail__title">{product.name}</h1>
+          <p class="product-detail__category">{product.categoryLabel}</p>
+          <div class="product-detail__price-container">
+            <p class="product-detail__price">{formatPrice(product.price)}</p>
+          </div>
+        </div>
+        <div class="product-detail__description"><p>{product.description}</p></div>
+        <div class="product-detail__features">
+          <h3 class="product-detail__features-title">Features</h3>
+          <ul class="product-detail__features-list">
+            {product.features.map((feature) => <li class="product-detail__feature">{feature}</li>)}
+          </ul>
+        </div>
+        <div class="product-detail__purchase">
+          <div class="product-detail__quantity">
+            <label for="quantity" class="product-detail__quantity-label">Quantity</label>
+            <div class="product-detail__quantity-controls">
+              <button class="product-detail__quantity-btn" id="decrease-quantity" type="button">-</button>
+              <input type="number" id="quantity" class="product-detail__quantity-input" value="1" min="1" max="10" />
+              <button class="product-detail__quantity-btn" id="increase-quantity" type="button">+</button>
+            </div>
+            <p class="product-detail__quantity-error" id="quantity-error" aria-live="polite"></p>
+          </div>
+          <div class="product-detail__actions">
+            <button class="product-detail__add-to-cart" id="add-to-cart-btn" type="button">Add to Cart</button>
+            <button class="product-detail__order-now" id="order-now-btn" type="button">Order Now</button>
+          </div>
+        </div>
+        <div class="product-detail__additional">
+          <div class="product-detail__accordion">
+            <div class="product-detail__accordion-item">
+              <button class="product-detail__accordion-header" type="button" aria-expanded="false">
+                <span>Shipping &amp; Returns</span>
+                <svg class="product-detail__accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="product-detail__accordion-content">
+                <p>We offer complimentary shipping on all orders. Each timepiece is carefully packaged in our signature box and delivered via secure courier service. Delivery typically takes 2-5 business days, depending on your location. If you're not completely satisfied with your purchase, you may return it within 30 days for a full refund or exchange.</p>
+              </div>
+            </div>
+            <div class="product-detail__accordion-item">
+              <button class="product-detail__accordion-header" type="button" aria-expanded="false">
+                <span>Warranty</span>
+                <svg class="product-detail__accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="product-detail__accordion-content">
+                <p>Every Christian Wijaya timepiece comes with our exclusive 5-year international warranty, covering manufacturing defects and mechanical failures. Our dedicated customer service team is available to assist with any inquiries or service requirements. For maintenance, we recommend having your timepiece serviced every 3-5 years to ensure optimal performance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-products">
+    <div class="related-products__container">
+      <h2 class="related-products__title">You May Also Like</h2>
+      <div class="related-products__grid">
+        {relatedProducts.map((related) => <ProductCard product={related} variant="related" />)}
+      </div>
+    </div>
+  </section>
+
+  <div class="product-detail__notification" id="cart-notification" role="status" aria-live="polite">
+    <div class="product-detail__notification-content">
+      <svg class="product-detail__notification-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      <p class="product-detail__notification-text">Item added to cart</p>
+    </div>
+  </div>
+
+  <script>
+    const detail = document.querySelector<HTMLElement>('[data-product-detail]');
+    const quantityInput = document.querySelector<HTMLInputElement>('#quantity');
+    const quantityError = document.getElementById('quantity-error');
+    const notification = document.getElementById('cart-notification');
+
+    const validateQuantity = () => {
+      if (!quantityInput || !quantityError) return false;
+      const value = Number.parseInt(quantityInput.value, 10);
+      quantityError.textContent = '';
+      if (Number.isNaN(value)) {
+        quantityError.textContent = 'Please enter a valid number';
+        return false;
+      }
+      if (value < 1) {
+        quantityError.textContent = 'Minimum quantity is 1';
+        quantityInput.value = '1';
+        return false;
+      }
+      if (value > 10) {
+        quantityError.textContent = 'Maximum quantity is 10';
+        quantityInput.value = '10';
+        return false;
+      }
+      return true;
+    };
+
+    document.getElementById('decrease-quantity')?.addEventListener('click', () => {
+      if (!quantityInput) return;
+      const value = Number.parseInt(quantityInput.value, 10);
+      if (value > 1) quantityInput.value = String(value - 1);
+      validateQuantity();
+    });
+    document.getElementById('increase-quantity')?.addEventListener('click', () => {
+      if (!quantityInput) return;
+      const value = Number.parseInt(quantityInput.value, 10);
+      if (value < 10) quantityInput.value = String(value + 1);
+      validateQuantity();
+    });
+    quantityInput?.addEventListener('change', validateQuantity);
+    quantityInput?.addEventListener('input', validateQuantity);
+
+    const accordionItems = document.querySelectorAll<HTMLElement>('.product-detail__accordion-item');
+    accordionItems.forEach((item) => {
+      const button = item.querySelector<HTMLButtonElement>('.product-detail__accordion-header');
+      button?.addEventListener('click', () => {
+        const active = item.classList.contains('active');
+        accordionItems.forEach((other) => {
+          other.classList.remove('active');
+          other.querySelector('.product-detail__accordion-header')?.setAttribute('aria-expanded', 'false');
+        });
+        if (!active) {
+          item.classList.add('active');
+          button.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    document.getElementById('add-to-cart-btn')?.addEventListener('click', () => {
+      if (!validateQuantity() || !notification) return;
+      notification.classList.add('show');
+      window.setTimeout(() => notification.classList.remove('show'), 3000);
+    });
+    document.getElementById('order-now-btn')?.addEventListener('click', () => {
+      if (!validateQuantity() || !quantityInput || !detail) return;
+      window.alert(`Proceeding to checkout with ${quantityInput.value} ${detail.dataset.productName}`);
+    });
+  </script>
+</BaseLayout>

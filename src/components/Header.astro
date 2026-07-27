@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/products', label: 'Product' },
+  { href: '/events', label: 'Event' },
+  { href: '/about', label: 'About Us' }
+];
+---
+
+<header id="main-header">
+  <div class="header">
+    <div class="header__container">
+      <a href="/" class="header__brand" aria-label="Christian Wijaya Home">
+        <Image src={logo} alt="Christian Wijaya Logo" class="header__logo" width={80} height={80} loading="eager" decoding="auto" />
+        <span class="header__name">Christian Wijaya</span>
+      </a>
+      <nav class="header__nav" aria-label="Main Navigation">
+        <ul class="header__nav-list">
+          {navItems.map((item) => (
+            <li class="header__nav-item"><a href={item.href} class="header__nav-link">{item.label}</a></li>
+          ))}
+          <li class="header__nav-item header__cart">
+            <a href="/products" class="header__nav-link" aria-label="View Cart">
+              <svg class="header__cart-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="9" cy="21" r="1.5"></circle>
+                <circle cx="19" cy="21" r="1.5"></circle>
+                <path d="M2,4H4L6,19A2,2 0 0,0 8,21H20"></path>
+                <polyline points="6 6 21 6 19 16 8 16"></polyline>
+              </svg>
+              <span class="header__cart-count" id="header-cart-count" aria-live="polite">0</span>
+            </a>
+          </li>
+        </ul>
+        <button class="header__burger" id="burger-btn" type="button" aria-label="Open Menu" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="header__burger-bar"></span>
+          <span class="header__burger-bar"></span>
+          <span class="header__burger-bar"></span>
+        </button>
+      </nav>
+    </div>
+    <div class="header__mobile-menu" id="mobile-menu" hidden>
+      <ul class="header__mobile-nav-list">
+        {navItems.map((item) => (
+          <li class="header__mobile-nav-item"><a href={item.href} class="header__mobile-nav-link">{item.label}</a></li>
+        ))}
+        <li class="header__mobile-nav-item"><a href="/products" class="header__mobile-nav-link">Cart</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const burger = document.getElementById('burger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (burger && mobileMenu) {
+    burger.addEventListener('click', () => {
+      const expanded = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!expanded));
+      burger.classList.toggle('active', !expanded);
+      mobileMenu.classList.toggle('active', !expanded);
+      mobileMenu.hidden = expanded;
+      document.body.classList.toggle('no-scroll', !expanded);
+    });
+  }
+</script>
