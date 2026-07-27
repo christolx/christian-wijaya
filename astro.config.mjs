@@ -1,9 +1,9 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: 'https://christian-wijaya.vercel.app',
-  output: 'static',
+  site: "https://christian-wijaya.vercel.app",
+  output: "static",
   devToolbar: {
-    enabled: false
-  }
+    enabled: false,
+  },
 });
