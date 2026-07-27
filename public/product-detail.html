@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Redirecting to product</title>
+  </head>
+  <body>
+    <p><a href="/products">Continue to collection</a></p>
+    <script>
+      const routes = {
+        1: '/products/midnight-chrono',
+        2: '/products/royal-cufflinks',
+        3: '/products/executive-wallet',
+        4: '/products/golden-era',
+        5: '/products/diamond-cascade-necklace',
+        6: '/products/business-briefcase',
+        7: '/products/italian-silk-tie',
+        8: '/products/platinum-signet-ring',
+        9: '/products/classic-tourbillon',
+        10: '/products/alligator-leather-belt',
+        11: '/products/leather-handbag',
+        12: '/products/emerald-elegy'
+      };
+      const id = new URLSearchParams(window.location.search).get('id');
+      window.location.replace(routes[id] || '/products');
+    </script>
+  </body>
+</html>

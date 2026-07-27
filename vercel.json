@@ -1,4 +1,21 @@
 {
+  "redirects": [
+    {
+      "source": "/product.html",
+      "destination": "/products",
+      "permanent": true
+    },
+    {
+      "source": "/event.html",
+      "destination": "/events",
+      "permanent": true
+    },
+    {
+      "source": "/aboutus.html",
+      "destination": "/about",
+      "permanent": true
+    }
+  ],
   "git": {
     "deploymentEnabled": false
   }
