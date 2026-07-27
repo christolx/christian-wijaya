@@ -1,11 +1,35 @@
-# Christian Wijaya : Luxury Brand Website
-- Human and Computer Interaction Lab Final Assignment
+# Christian Wijaya
 
-# 🌐 [Live Website](https://christian-wijaya.vercel.app)
+Luxury fashion site built with Astro and vanilla TypeScript.
 
-## Pure HTML/CSS/JS: No frameworks or libraries.
+## Development
 
-## Quick Start
+```sh
+npm install
+npm run dev
+npm run check
+npm run build
+npm test
+```
 
-1. Clone this repo.
-2. Open `index.html` in your browser.
+Playwright tests require Chromium:
+
+```sh
+npx playwright install chromium
+```
+
+## Routes
+
+- `/`
+- `/products`
+- `/products/[slug]`
+- `/events`
+- `/about`
+
+Legacy `.html` URLs redirect to clean routes. Product IDs from
+`product-detail.html?id=N` map to generated product pages.
+
+Forms, cart actions, checkout, newsletter subscription, and event registration
+remain client-side demonstrations without backend persistence.
+
+[Live website](https://christian-wijaya.vercel.app)
