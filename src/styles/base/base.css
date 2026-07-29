@@ -12,3 +12,54 @@ a {
   text-decoration: none;
   color: inherit;
 }
+/* Image loads: low-resolution preview settles into decoded source. */
+.progressive-image {
+  aspect-ratio: var(--progressive-image-ratio);
+  background: #241f18;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressive-image__placeholder,
+.progressive-image__full {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+}
+
+.progressive-image__placeholder {
+  filter: blur(18px);
+  opacity: 1;
+  transform: scale(1.08);
+  transition: opacity 180ms ease-out;
+}
+
+.progressive-image__full {
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 220ms ease-out, transform 420ms ease-out;
+}
+
+.progressive-image[data-loaded='true'] .progressive-image__full {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.progressive-image[data-loaded='true'] .progressive-image__placeholder {
+  opacity: 0;
+}
+
+.progressive-image[data-error='true'] .progressive-image__full {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressive-image__placeholder,
+  .progressive-image__full {
+    transition: none;
+    transform: none;
+  }
+}
