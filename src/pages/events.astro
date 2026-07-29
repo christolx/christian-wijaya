@@ -1,9 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import runway from '../assets/runway.jpg';
 import workshop from '../assets/workshop.jpg';
 import gala from '../assets/gala.jpg';
+import heroImage from '../assets/eventhero.jpg';
+import ProgressiveImage from '../components/ProgressiveImage.astro';
 import '../styles/pages/event.css';
 
 const events = [
@@ -48,6 +49,7 @@ const events = [
   description="Join Christian Wijaya exclusive events and apply to become a brand model."
 >
   <section class="event-hero">
+    <ProgressiveImage src={heroImage} alt="" wrapperClass="event-hero__visual" />
     <div class="event-hero__container">
       <h1 class="event-hero__title">Exclusive Events</h1>
       <p class="event-hero__subtitle">Join us for unforgettable experiences in the world of luxury</p>
@@ -62,7 +64,7 @@ const events = [
         {events.map((item) => (
           <article class="events__item">
             <div class="events__image-container">
-              <Image src={item.image} alt={item.alt} class="events__image" widths={[460, 720]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" />
+              <ProgressiveImage src={item.image} alt={item.alt} imageClass="events__image" widths={[460, 720]} sizes="(max-width: 768px) 100vw, 33vw" />
               <div class="events__date"><span class="events__day">{item.day}</span><span class="events__month">{item.month}</span></div>
             </div>
             <div class="events__content">

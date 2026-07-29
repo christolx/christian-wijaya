@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import type { Product } from '../data/products';
 import { formatPrice } from '../data/products';
+import ProgressiveImage from './ProgressiveImage.astro';
 
 interface Props {
   product: Product;
@@ -15,7 +15,7 @@ const related = variant === 'related';
 {related ? (
   <article class="related-products__item">
     <div class="related-products__image-container">
-      <Image src={product.image} alt={product.imageAlt} class="related-products__image" widths={[320, 520]} sizes="(max-width: 768px) 100vw, 25vw" loading="eager" decoding="auto" />
+      <ProgressiveImage src={product.image} alt={product.imageAlt} imageClass="related-products__image" widths={[320, 520]} sizes="(max-width: 768px) 100vw, 25vw" />
       <div class="related-products__overlay">
         <a href={`/products/${product.slug}`} class="related-products__view">View Details</a>
       </div>
@@ -26,7 +26,7 @@ const related = variant === 'related';
 ) : (
   <article class="products__item" data-category={product.category} data-price={product.price} data-name={product.name} data-product-card>
     <div class="products__image-container">
-      <Image src={product.image} alt={product.imageAlt} class="products__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" />
+      <ProgressiveImage src={product.image} alt={product.imageAlt} imageClass="products__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" />
       <div class="products__overlay">
         <a href={`/products/${product.slug}`} class="products__view">View Details</a>
       </div>

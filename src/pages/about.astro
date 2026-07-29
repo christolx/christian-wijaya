@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import atelier from '../assets/atelier.png';
 import headquarters from '../assets/headquarters.jpg';
@@ -7,6 +6,8 @@ import wijaya from '../assets/wijaya.png';
 import femaleCeo from '../assets/femaleceo.jpg';
 import joey from '../assets/joey.jpeg';
 import logo from '../assets/logo.png';
+import heroImage from '../assets/about-hero.png';
+import ProgressiveImage from '../components/ProgressiveImage.astro';
 import '../styles/pages/about.css';
 ---
 
@@ -15,6 +16,7 @@ import '../styles/pages/about.css';
   description="Discover Christian Wijaya heritage, values, headquarters, and leadership."
 >
   <section class="about-hero">
+    <ProgressiveImage src={heroImage} alt="" wrapperClass="about-hero__visual" />
     <div class="about-hero__container">
       <h1 class="about-hero__title">Our Story</h1>
       <p class="about-hero__subtitle">The legacy of craftsmanship and elegance</p>
@@ -32,7 +34,7 @@ import '../styles/pages/about.css';
         </div>
       </div>
       <div class="about-section__image-container">
-        <Image src={atelier} alt="Christian Wijaya Atelier" class="about-section__image" widths={[600, 900]} sizes="(max-width: 768px) 100vw, 50vw" loading="eager" decoding="auto" />
+        <ProgressiveImage src={atelier} alt="Christian Wijaya Atelier" imageClass="about-section__image" widths={[600, 900]} sizes="(max-width: 768px) 100vw, 50vw" />
       </div>
     </div>
   </section>
@@ -68,7 +70,7 @@ import '../styles/pages/about.css';
   <section class="about-headquarters">
     <div class="about-headquarters__container">
       <div class="about-headquarters__image-container">
-        <Image src={headquarters} alt="Christian Wijaya Headquarters" class="about-headquarters__image" widths={[600, 900]} sizes="(max-width: 768px) 100vw, 50vw" loading="eager" decoding="auto" />
+        <ProgressiveImage src={headquarters} alt="Christian Wijaya Headquarters" imageClass="about-headquarters__image" widths={[600, 900]} sizes="(max-width: 768px) 100vw, 50vw" />
       </div>
       <div class="about-headquarters__content">
         <h2 class="about-headquarters__title">Our Headquarters</h2>
@@ -84,19 +86,19 @@ import '../styles/pages/about.css';
       <h2 class="about-leadership__title">Our Leadership</h2>
       <div class="about-leadership__grid">
         <div class="about-leadership__item">
-          <div class="about-leadership__image-container"><Image src={wijaya} alt="Christian Wijaya - Founder" class="about-leadership__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" /></div>
+          <div class="about-leadership__image-container"><ProgressiveImage src={wijaya} alt="Christian Wijaya - Founder" imageClass="about-leadership__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" /></div>
           <h3 class="about-leadership__name">Christian Wijaya</h3>
           <p class="about-leadership__role">Founder &amp; Creative Director</p>
           <p class="about-leadership__bio">With over 40 years of experience in luxury craftsmanship, Christian continues to guide the creative vision of the brand, ensuring each piece embodies the excellence that defines our heritage.</p>
         </div>
         <div class="about-leadership__item">
-          <div class="about-leadership__image-container"><Image src={femaleCeo} alt="Sophia Wijaya - CEO" class="about-leadership__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" /></div>
+          <div class="about-leadership__image-container"><ProgressiveImage src={femaleCeo} alt="Sophia Wijaya - CEO" imageClass="about-leadership__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" /></div>
           <h3 class="about-leadership__name">Sophia Wijaya</h3>
           <p class="about-leadership__role">Chief Executive Officer</p>
           <p class="about-leadership__bio">Joining the family business in 2010, Sophia has led the company's global expansion while maintaining its core values and commitment to exceptional quality.</p>
         </div>
         <div class="about-leadership__item">
-          <div class="about-leadership__image-container"><Image src={joey} alt="Marco Chen - Design Director" class="about-leadership__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" /></div>
+          <div class="about-leadership__image-container"><ProgressiveImage src={joey} alt="Marco Chen - Design Director" imageClass="about-leadership__image" widths={[360, 600]} sizes="(max-width: 768px) 100vw, 33vw" /></div>
           <h3 class="about-leadership__name">Marco Chen</h3>
           <p class="about-leadership__role">Design Director</p>
           <p class="about-leadership__bio">A visionary designer with a background in fine arts, Marco brings fresh perspectives while honoring the brand's aesthetic heritage.</p>
@@ -112,7 +114,7 @@ import '../styles/pages/about.css';
         <p class="about-brand__text">The Christian Wijaya logo represents our commitment to timeless elegance. The distinctive emblem combines elements of traditional Indonesian craftsmanship with modern minimalism, symbolizing our bridge between heritage and innovation.</p>
         <p class="about-brand__text">Our signature gold tone represents excellence and enduring value, while our clean, sophisticated aesthetic reflects the understated elegance that defines our brand.</p>
       </div>
-      <div class="about-brand__logo-container"><Image src={logo} alt="Christian Wijaya Logo" class="about-brand__logo" width={300} loading="eager" decoding="auto" /></div>
+      <div class="about-brand__logo-container"><ProgressiveImage src={logo} alt="Christian Wijaya Logo" wrapperClass="about-brand__logo-image" imageClass="about-brand__logo" /></div>
     </div>
   </section>
 

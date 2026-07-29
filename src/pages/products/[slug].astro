@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
+import ProgressiveImage from '../../components/ProgressiveImage.astro';
 import { formatPrice, productById, products, type Product } from '../../data/products';
 import '../../styles/pages/product-detail.css';
 
@@ -40,7 +40,7 @@ const relatedProducts = product.relatedIds
     <div class="product-detail__container">
       <div class="product-detail__gallery">
         <div class="product-detail__main-image">
-          <Image src={product.image} alt={product.name} class="product-detail__image" widths={[600, 900, 1200]} sizes="(max-width: 992px) 100vw, 50vw" loading="eager" decoding="auto" />
+          <ProgressiveImage src={product.image} alt={product.name} imageClass="product-detail__image" widths={[600, 900, 1200]} sizes="(max-width: 992px) 100vw, 50vw" />
         </div>
       </div>
       <div class="product-detail__info">

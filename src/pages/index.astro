@@ -1,7 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import craftsman from '../assets/craftsman.png';
+import heroImage from '../assets/upscaled-pattinson.png';
+import ProgressiveImage from '../components/ProgressiveImage.astro';
 import { products, formatPrice } from '../data/products';
 import '../styles/pages/home.css';
 
@@ -14,6 +15,7 @@ const featuredAlt = ['Luxury Watch', 'Designer Cufflinks', 'Leather Wallet'];
   description="Christian Wijaya creates timeless luxury fashion with exceptional craftsmanship."
 >
   <section class="hero">
+    <ProgressiveImage src={heroImage} alt="" wrapperClass="hero__visual" />
     <div class="hero__container">
       <div class="hero__content">
         <h1 class="hero__title">Timeless Elegance</h1>
@@ -31,7 +33,7 @@ const featuredAlt = ['Luxury Watch', 'Designer Cufflinks', 'Leather Wallet'];
         {featured.map((product, index) => (
           <article class="featured__item">
             <div class="featured__image-container">
-              <Image src={product.image} alt={featuredAlt[index]} class="featured__image" widths={[420, 720]} sizes="(max-width: 768px) 100vw, 33vw" loading="eager" decoding="auto" />
+              <ProgressiveImage src={product.image} alt={featuredAlt[index]} imageClass="featured__image" widths={[420, 720]} sizes="(max-width: 768px) 100vw, 33vw" />
               <div class="featured__overlay">
                 <a href={`/products/${product.slug}`} class="featured__view">View Details</a>
               </div>
@@ -63,7 +65,7 @@ const featuredAlt = ['Luxury Watch', 'Designer Cufflinks', 'Leather Wallet'];
         <a href="/about" class="story__link">Discover Our Story</a>
       </div>
       <div class="story__image-container">
-        <Image src={craftsman} alt="Master Craftsman at Work" class="story__image" widths={[600, 900]} sizes="(max-width: 768px) 100vw, 50vw" loading="eager" decoding="auto" />
+        <ProgressiveImage src={craftsman} alt="Master Craftsman at Work" imageClass="story__image" widths={[600, 900]} sizes="(max-width: 768px) 100vw, 50vw" />
       </div>
     </div>
   </section>
@@ -168,6 +170,5 @@ const featuredAlt = ['Luxury Watch', 'Designer Cufflinks', 'Leather Wallet'];
       });
     }
 
-    window.setTimeout(() => document.querySelector('.hero')?.classList.add('loaded'), 100);
   </script>
 </BaseLayout>

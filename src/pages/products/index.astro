@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import { products } from '../../data/products';
+import bannerImage from '../../assets/productsbg.jpg';
+import ProgressiveImage from '../../components/ProgressiveImage.astro';
 import '../../styles/pages/product.css';
 ---
 
@@ -10,6 +12,7 @@ import '../../styles/pages/product.css';
   description="Discover Christian Wijaya watches, accessories, leather goods, and jewelry."
 >
   <section class="collection-banner">
+    <ProgressiveImage src={bannerImage} alt="" wrapperClass="collection-banner__visual" />
     <div class="collection-banner__container">
       <h1 class="collection-banner__title">Our Collection</h1>
       <p class="collection-banner__subtitle">Discover the epitome of luxury and craftsmanship</p>
