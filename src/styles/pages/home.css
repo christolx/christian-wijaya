@@ -30,25 +30,18 @@
   overflow: hidden;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+.hero__visual {
+  aspect-ratio: auto;
   height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
   z-index: 0;
-  background-image: url("../../assets/upscaled-pattinson.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: brightness(0.6);
-  transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
-  transform: scale(1.15);
 }
 
-.hero.loaded::before {
-  transform: scale(1);
+.hero__visual .progressive-image__placeholder,
+.hero__visual .progressive-image__full {
+  filter: brightness(0.6);
 }
 
 .hero__container {

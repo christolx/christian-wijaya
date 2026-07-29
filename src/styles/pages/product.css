@@ -5,10 +5,6 @@
   padding: 8rem 2rem;
   text-align: center;
   position: relative;
-  background-image: url(../../assets/productsbg.jpg);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .collection-banner::before {
@@ -20,6 +16,15 @@
   bottom: 0;
   background: rgba(20, 15, 5, 0.6);
   z-index: 1;
+}
+
+.collection-banner__visual {
+  aspect-ratio: auto;
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
 }
 
 .collection-banner__container {
