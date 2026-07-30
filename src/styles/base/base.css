@@ -40,19 +40,21 @@ a {
 .progressive-image__full {
   opacity: 0;
   transform: scale(1.03);
-  transition: opacity 220ms ease-out, transform 420ms ease-out;
+  transition:
+    opacity 220ms ease-out,
+    transform 420ms ease-out;
 }
 
-.progressive-image[data-loaded='true'] .progressive-image__full {
+.progressive-image[data-loaded="true"] .progressive-image__full {
   opacity: 1;
   transform: scale(1);
 }
 
-.progressive-image[data-loaded='true'] .progressive-image__placeholder {
+.progressive-image[data-loaded="true"] .progressive-image__placeholder {
   opacity: 0;
 }
 
-.progressive-image[data-error='true'] .progressive-image__full {
+.progressive-image[data-error="true"] .progressive-image__full {
   opacity: 1;
 }
 
